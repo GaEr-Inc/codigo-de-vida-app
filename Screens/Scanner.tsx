@@ -5,7 +5,7 @@ import { Button, IconButton} from "react-native-paper";
 
 function Scanner() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const [scanned, setScanned] = useState(true);
+  const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(true);
   const [modalText, setModalText] = useState("");
   const [testText, setTestText] = useState("Qr read");
@@ -41,6 +41,7 @@ function Scanner() {
         <View>
         <IconButton icon="reload" size={70} onPress={() => {
           setModalVisible(false)
+          setScanned(false)
         }}/>
         <Text>{testText}</Text>
         </View>
