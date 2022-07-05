@@ -1,22 +1,47 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
-import { Appbar, Headline, List } from "react-native-paper";
+import React, { useEffect } from "react";
+import { Appbar, Headline, List, Modal, Portal } from "react-native-paper";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import Scanner from "./Scanner";
+import { useRecoilValue } from "recoil";
+import { scannedData } from "../State";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-const MainScreen = () => {
+const Drawer = createDrawerNavigator();
+
+const MainScreen = ({ navigation } : any) => {
+  const [visible, setVisible] = React.useState(false);
+  const scanData = useRecoilValue(scannedData);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = { backgroundColor: "white", padding: 20 };
+  const didMount = React.useRef(false);
+
+  React.useEffect(() => {
+    if (didMount.current) {
+      console.log("I run only if toggle changes.");
+      showModal();
+    } else {
+      didMount.current = true;
+    }
+  }, [scanData]);
+
   return (
     <View>
-      <Appbar style={styles.appbar}>
-        <Appbar.Action icon="menu" onPress={() => {}} />
-        <Appbar.Content title="Nombre de app" />
-        <Appbar.Action icon="magnify" onPress={() => {}} />
-        <Appbar.Action icon="bell" onPress={() => {}} />
-      </Appbar>
       <View style={styles.scanner}>
-        <Scanner/>
+        <Scanner />
       </View>
       <View>
+        <Portal>
+          <Modal
+            visible={visible}
+            onDismiss={hideModal}
+            contentContainerStyle={containerStyle}
+          >
+            <Text>{scanData}</Text>
+          </Modal>
+        </Portal>
         <Headline style={styles.text}>Ultimos Registros</Headline>
         <ScrollView style={styles.scrollview}>
           <List.Item
@@ -26,8 +51,9 @@ const MainScreen = () => {
             right={(props) => (
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
+            onPress={showModal}
           />
-                    <List.Item
+          <List.Item
             title="Titulo 1"
             description="Description 1"
             left={(props) => <List.Icon {...props} icon="heart" />}
@@ -35,7 +61,7 @@ const MainScreen = () => {
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
           />
-                    <List.Item
+          <List.Item
             title="Titulo 1"
             description="Description 1"
             left={(props) => <List.Icon {...props} icon="heart" />}
@@ -43,7 +69,7 @@ const MainScreen = () => {
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
           />
-                    <List.Item
+          <List.Item
             title="Titulo 1"
             description="Description 1"
             left={(props) => <List.Icon {...props} icon="heart" />}
@@ -51,7 +77,7 @@ const MainScreen = () => {
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
           />
-                    <List.Item
+          <List.Item
             title="Titulo 1"
             description="Description 1"
             left={(props) => <List.Icon {...props} icon="heart" />}
@@ -72,9 +98,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  appbar: {
-    backgroundColor: "#fff",
-  },
   scanner: {
     width: "70%",
     height: "45%",
@@ -94,7 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: "35%",
     overflow: "hidden",
-  }
+  },
 });
 
 export default MainScreen;

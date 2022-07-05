@@ -2,13 +2,16 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Button, IconButton} from "react-native-paper";
+import { useRecoilState } from "recoil";
+import { scannedData } from "../State";
 
-function Scanner() {
+function Scanner({ navigation } : any) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(true);
   const [modalText, setModalText] = useState("");
   const [testText, setTestText] = useState("Qr read");
+  const [scannedDat, setScannedData] = useRecoilState(scannedData)
 
   useEffect(() => {
     (async () => {
@@ -31,6 +34,7 @@ function Scanner() {
     setTestText(
       `Bar code with type ${type} and data ${data} has been scanned!`
     );
+    setScannedData(data);
     setModalVisible(true);
   };
 
@@ -43,7 +47,6 @@ function Scanner() {
           setModalVisible(false)
           setScanned(false)
         }}/>
-        <Text>{testText}</Text>
         </View>
         :
         <BarCodeScanner
