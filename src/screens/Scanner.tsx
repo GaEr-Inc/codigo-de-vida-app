@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Button, IconButton} from "react-native-paper";
 import { useRecoilState } from "recoil";
-import { scannedData } from "../State";
+import { scannedData } from "../state";
 
 function Scanner({ navigation } : any) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);

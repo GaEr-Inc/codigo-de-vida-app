@@ -1,15 +1,24 @@
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
-import React, { useEffect } from "react";
-import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil";
-import { StyleSheet, Text, View } from "react-native";
-import { DefaultTheme, Provider } from "react-native-paper";
-import Login from "./Screens/Login";
-import MainScreen from "./Screens/MainScreen";
-import { isLoggedIn, SERVER } from "./State";
-import axios from "axios";
+import React from "react";
+import {
+  RecoilRoot,
+  useRecoilState,
+} from "recoil";
+import { StyleSheet } from "react-native";
+import {
+  Button,
+  DefaultTheme,
+  Provider,
+} from "react-native-paper";
+import Login from "./src/screens/Login";
+import MainScreen from "./src/screens/MainScreen";
+import { isLoggedIn } from "./src/state";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import Pocketbase from "pocketbase";
+import { CustomAuthStore } from "./src/util/CustomAuthStore";
+import { Connect } from "./Connect";
 
 export default function App() {
   return (
@@ -24,30 +33,25 @@ export default function App() {
 const Drawer = createDrawerNavigator();
 function Screen() {
   const [isLogged, setIsLogged] = useRecoilState(isLoggedIn);
-  const serverUrl = useRecoilValue(SERVER);
-  (async () => {
-    const token = await AsyncStorage.getItem("AUTH_TOKEN");
-    const authres = await axios.get(`${serverUrl}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (authres.status === 200) {
-      setIsLogged(true);
-    }
-  })();
-
-  if (!isLogged) {
-    return <Login />;
+  
+  if (isLogged === undefined) {
+  return <Connect />;
   }
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Nombre de la App" component={MainScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-  );
+  if (!isLogged && isLogged !== undefined) {
+    return <Login />;
+  } else if (isLogged)
+    return (
+      <NavigationContainer>
+        <Drawer.Navigator>
+          <Drawer.Screen name="Nombre de la App" component={MainScreen} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    );
+  
+  return null
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",

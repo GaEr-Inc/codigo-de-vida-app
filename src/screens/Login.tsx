@@ -1,37 +1,22 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Button, TextInput } from "react-native-paper";
-import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { AUTH_TOKEN, isLoggedIn, SERVER } from "../State";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createClient } from "../util/Pocketbase";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isLoggedIn, SERVER } from "../state";
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(true);
-  const serverUrl = useRecoilValue(SERVER);
-  const [token, setToken] = useRecoilState(AUTH_TOKEN);
-  const [isLogged, setIsLogged] = useRecoilState(isLoggedIn);
+  const url = useRecoilValue(SERVER)
+  const setIsLogged = useSetRecoilState(isLoggedIn);
   const handleLogin = async () => {
-    console.log(password, email);
-    const res = await axios.post(`${serverUrl}/auth/login`, {
-      email: email,
-      password: password,
-    });
-    console.log(res.data.token);
-    setToken(res.data.token);
-    const authres = await axios.get(`${serverUrl}`, {
-      headers: { Authorization: `Bearer ${res.data.token}` },
-    });
-    if (authres.status === 200) {
-      console.log("Login success");
-       try {
-        await AsyncStorage.setItem("AUTH_TOKEN", res.data.token);
-      } catch (error) {
-        console.log(error);
-      }
+    const client = await createClient(url);
+    const user = await client.Users.authViaEmail(email, password)
+    if (user.profile?.id !== null) {
+      console.log(user);
+      setIsLogged(true);
     }
-    setIsLogged(true);
   };
 
   return (

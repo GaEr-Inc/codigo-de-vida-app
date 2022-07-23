@@ -3,30 +3,22 @@ import React, { useEffect } from "react";
 import { Appbar, Headline, List, Modal, Portal } from "react-native-paper";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import Scanner from "./Scanner";
-import { useRecoilValue } from "recoil";
-import { scannedData } from "../State";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isLoggedIn, scannedData, SERVER } from "../state";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createClient, logOut } from "../util/Pocketbase";
 
 const Drawer = createDrawerNavigator();
 
 const MainScreen = ({ navigation } : any) => {
   const [visible, setVisible] = React.useState(false);
   const scanData = useRecoilValue(scannedData);
-
+  const url = useRecoilValue(SERVER);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 20 };
-  const didMount = React.useRef(false);
-
-  React.useEffect(() => {
-    if (didMount.current) {
-      console.log("I run only if toggle changes.");
-      showModal();
-    } else {
-      didMount.current = true;
-    }
-  }, [scanData]);
-
+  const setIsLoggedIn = useSetRecoilState(isLoggedIn);
+  
   return (
     <View>
       <View style={styles.scanner}>
@@ -60,6 +52,7 @@ const MainScreen = ({ navigation } : any) => {
             right={(props) => (
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
+            onPress={() => createClient(url).then((client) => {client.AuthStore.clear()})}
           />
           <List.Item
             title="Titulo 1"
@@ -78,12 +71,13 @@ const MainScreen = ({ navigation } : any) => {
             )}
           />
           <List.Item
-            title="Titulo 1"
+            title="Cerrar Sesion"
             description="Description 1"
             left={(props) => <List.Icon {...props} icon="heart" />}
             right={(props) => (
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
+            onPress={() => logOut(url, setIsLoggedIn)}
           />
         </ScrollView>
       </View>
