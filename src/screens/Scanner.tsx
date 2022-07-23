@@ -35,16 +35,14 @@ function Scanner({ navigation } : any) {
       `Bar code with type ${type} and data ${data} has been scanned!`
     );
     setScannedData(data);
-    setModalVisible(true);
   };
 
   return (
     <View style={styles.container}>
       {
-        modalVisible ? 
+        scanned ? 
         <View>
         <IconButton icon="reload" size={70} onPress={() => {
-          setModalVisible(false)
           setScanned(false)
         }}/>
         </View>
