@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { createClient } from "../util/Pocketbase";
 import { useRecoilValue, useSetRecoilState } from "recoil";

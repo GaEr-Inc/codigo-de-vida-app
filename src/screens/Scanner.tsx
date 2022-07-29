@@ -9,7 +9,6 @@ function Scanner({ navigation } : any) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(true);
-  const [modalText, setModalText] = useState("");
   const [testText, setTestText] = useState("Qr read");
   const [scannedDat, setScannedData] = useRecoilState(scannedData)
 
@@ -48,7 +47,7 @@ function Scanner({ navigation } : any) {
         </View>
         :
         <BarCodeScanner
-          style={styles.scanner}
+          style={StyleSheet.absoluteFillObject}
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         />
       }
@@ -63,10 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  scanner: {
-    width: "100%",
-    height: "100%",
-  },
+
 });
 
 export default Scanner;

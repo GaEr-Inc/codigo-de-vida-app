@@ -1,5 +1,4 @@
 import { atom } from "recoil";
-import Pocketbase from "pocketbase"
 export const scannedData = atom({
   key: "scannedData",
   default: ""
@@ -12,7 +11,7 @@ export const isLoggedIn = atom<boolean | undefined>({
 
 export const SERVER = atom({
   key: "SERVER",
-  default: "http://192.168.1.103:8090"
+  default: "http://192.168.1.102:8090"
 })
 
 export const AUTH_TOKEN = atom({

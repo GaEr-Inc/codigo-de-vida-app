@@ -21,8 +21,6 @@ export class CustomAuthStore {
         const parsedData = JSON.parse(data || "{}");
         if (parsedData.token === undefined) return;
         this.token = parsedData.token;
-        // admins don't have `verified` prop
-
         this.model = parsedData.model;
       });
     } catch (error) {}

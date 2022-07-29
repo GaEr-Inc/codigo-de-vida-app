@@ -1,16 +1,13 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Appbar, Avatar, Headline, List, Modal, Portal } from "react-native-paper";
-import { BarCodeScanner } from "expo-barcode-scanner";
 import Scanner from "./Scanner";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoggedIn, scannedData, SERVER } from "../state";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createClient, logOut } from "../util/Pocketbase";
 import { Record } from "pocketbase"
-const Drawer = createDrawerNavigator();
 
-const MainScreen = ({ navigation }: any) => {
+const StartScreen = ({ navigation }: any) => {
   const [visible, setVisible] = useState(false);
   const scanData = useRecoilValue(scannedData);
   const [patientData, setPatientData] = useState<Record | undefined>(undefined);
@@ -64,7 +61,7 @@ const MainScreen = ({ navigation }: any) => {
             onPress={showModal}
           />
           <List.Item
-            title="Titulo 1"
+            title="dsfsdf"
             description="Description 1"
             left={(props) => <List.Icon {...props} icon="heart" />}
             right={(props) => (
@@ -119,8 +116,6 @@ const styles = StyleSheet.create({
     height: "45%",
     marginTop: "15%",
     backgroundColor: "gray",
-    alignItems: "center",
-    justifyContent: "center",
     alignSelf: "center",
     borderRadius: 10,
   },
@@ -130,8 +125,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   scrollview: {
-    marginTop: 10,
-    height: "35%",
+    height: "38%",
     overflow: "hidden",
   },
   containerStyle: {
@@ -143,4 +137,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MainScreen;
+export default StartScreen;
