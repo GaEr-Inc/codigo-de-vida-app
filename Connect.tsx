@@ -5,7 +5,7 @@ import {
 } from "recoil";
 import { Text, View, StyleSheet } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
-import { isLoggedIn, SERVER } from "./src/state";
+import { isLoggedIn, SERVER_URL } from "./src/state";
 import { ClientResponseError } from "pocketbase";
 import { getUserId } from "./src/util/User";
 import { createClient } from "./src/util/Pocketbase";
@@ -13,7 +13,6 @@ import { createClient } from "./src/util/Pocketbase";
 export function Connect() {
   const setIsLogged = useSetRecoilState(isLoggedIn);
   const [isLoading, setIsLoading] = useState(false);
-  const url = useRecoilValue(SERVER);
   let unmounted = false;
   useEffect(() => {
     if (unmounted)
@@ -43,7 +42,7 @@ export function Connect() {
     };
   }, []);
   const tryLogin = async (setter : (valOrUpdater: boolean | ((currVal: boolean | undefined) => boolean | undefined) | undefined) => void) => {
-    const client = await createClient(url);
+    const client = await createClient(SERVER_URL);
     const userId = await getUserId();
     await client.Users.getOne(userId!).then((user) => {
       console.log(user);

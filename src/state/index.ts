@@ -9,9 +9,10 @@ export const isLoggedIn = atom<boolean | undefined>({
   default: undefined
 })
 
+export const SERVER_URL = "http://192.168.1.102:8090"
 export const SERVER = atom({
   key: "SERVER",
-  default: "http://192.168.1.102:8090"
+  default: SERVER_URL
 })
 
 export const AUTH_TOKEN = atom({

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Appbar, Avatar, Headline, List, Modal, Portal } from "react-native-paper";
 import Scanner from "./Scanner";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isLoggedIn, scannedData, SERVER } from "../state";
+import { isLoggedIn, scannedData, SERVER_URL } from "../state";
 import { createClient, logOut } from "../util/Pocketbase";
 import { Record } from "pocketbase"
 
@@ -11,13 +11,12 @@ const StartScreen = ({ navigation }: any) => {
   const [visible, setVisible] = useState(false);
   const scanData = useRecoilValue(scannedData);
   const [patientData, setPatientData] = useState<Record | undefined>(undefined);
-  const url = useRecoilValue(SERVER);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const setIsLoggedIn = useSetRecoilState(isLoggedIn);
 
   const searchPatient = async () => {
-    const client = await createClient(url);
+    const client = await createClient(SERVER_URL);
     const data = await client.Records.getOne("pacientes", scanData);
     console.log(data);
     setPatientData(data);
@@ -68,7 +67,7 @@ const StartScreen = ({ navigation }: any) => {
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
             onPress={() =>
-              createClient(url).then((client) => {
+              createClient(SERVER_URL).then((client) => {
                 client.AuthStore.clear();
               })
             }
@@ -96,7 +95,7 @@ const StartScreen = ({ navigation }: any) => {
             right={(props) => (
               <List.Icon {...props} icon="drag-horizontal-variant" />
             )}
-            onPress={() => logOut(url, setIsLoggedIn)}
+            onPress={() => logOut(SERVER_URL, setIsLoggedIn)}
           />
         </ScrollView>
       </View>

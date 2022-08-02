@@ -6,7 +6,7 @@ import { StyleSheet } from "react-native";
 import { Button, DefaultTheme, Provider } from "react-native-paper";
 import Login from "./src/screens/Login";
 import StartScreen from "./src/screens/StartScreen";
-import { isLoggedIn, SERVER } from "./src/state";
+import { isLoggedIn, SERVER_URL } from "./src/state";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -14,9 +14,9 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { Connect } from "./Connect";
-import { Text } from "react-native-paper";
 import { logOut } from "./src/util/Pocketbase";
 import SearchScreen from "./src/screens/SearchScreen";
+import { makePDF } from "./src/util/PDFExport";
 
 export default function App() {
   return (
@@ -31,7 +31,6 @@ export default function App() {
 const Drawer = createDrawerNavigator();
 function MainScreen() {
   const [isLogged, setIsLogged] = useRecoilState(isLoggedIn);
-  const url = useRecoilValue(SERVER)
   if (isLogged === undefined) {
     return <Connect />;
   }
@@ -47,7 +46,7 @@ function MainScreen() {
                 <DrawerItemList {...props} />
                 <DrawerItem
                   label="Cerrar sesión"
-                  onPress={() => logOut(url, setIsLogged)}
+                  onPress={() => logOut(SERVER_URL, setIsLogged)}
                 />
               </DrawerContentScrollView>
             );

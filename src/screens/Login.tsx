@@ -3,15 +3,14 @@ import React, { useState } from "react";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { createClient } from "../util/Pocketbase";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isLoggedIn, SERVER } from "../state";
+import { isLoggedIn, SERVER_URL } from "../state";
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(true);
-  const url = useRecoilValue(SERVER)
   const setIsLogged = useSetRecoilState(isLoggedIn);
   const handleLogin = async () => {
-    const client = await createClient(url);
+    const client = await createClient(SERVER_URL);
     const user = await client.Users.authViaEmail(email, password)
     if (user.profile?.id !== null) {
       console.log(user);
