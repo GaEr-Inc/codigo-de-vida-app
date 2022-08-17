@@ -7,7 +7,6 @@ import * as Sharing from "expo-sharing";
 import { SERVER_URL } from "../state";
 import { createClient } from "./Pocketbase";
 import { Record } from "pocketbase";
-import axios from "axios";
 const pdfbytes = document;
 
 export async function makePDF(
@@ -49,7 +48,6 @@ export async function makePDF(
   }
   console.log(uri);
   const exportPDFBytes = await pdfdoc.saveAsBase64();
-  // const exportPDFString = base64.bytesToBase64(exportPDFBytes);
 
   await FileSystem.writeAsStringAsync(uri, exportPDFBytes, {
     encoding: FileSystem.EncodingType.Base64,

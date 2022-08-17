@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Avatar, Button, TextInput } from "react-native-paper";
 import { createClient } from "../util/Pocketbase";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isLoggedIn, SERVER_URL } from "../state";
 const Login = () => {
   const [password, setPassword] = useState("");

@@ -18,6 +18,7 @@
     "eventsource": "^2.0.2",
     "expo": "~45.0.0",
     "expo-barcode-scanner": "~11.3.0",
+    "expo-camera": "~12.2.0",
     "expo-file-system": "^14.1.0",
     "expo-sharing": "^10.3.0",
     "expo-splash-screen": "~0.15.1",

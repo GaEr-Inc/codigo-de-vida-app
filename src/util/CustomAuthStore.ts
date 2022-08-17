@@ -1,6 +1,7 @@
 /*This custom authStore is maded because Pocketbase uses LocalStorage by
  * deafult and is not present on ReactNative, so is needed to use the AsyncStorage instead.
- */
+ * This is from the Pocketbase repository: https://github.com/pocketbase/js-sdk
+*/
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Pocketbase from "pocketbase";
 import { User, Admin } from "pocketbase";

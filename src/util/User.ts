@@ -1,6 +1,4 @@
 import Pocketbase from "pocketbase";
-import { useRecoilValue } from "recoil";
-import { SERVER_URL } from "../state";
 import { CustomAuthStore } from "./CustomAuthStore";
 
 export async function getUserId(client?: Pocketbase, url?: string): Promise<string | undefined> {
