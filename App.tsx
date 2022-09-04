@@ -17,6 +17,9 @@ import { Connect } from "./Connect";
 import { logOut } from "./src/util/Pocketbase";
 import SearchScreen from "./src/screens/SearchScreen";
 import { makePDF } from "./src/util/PDFExport";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import Recents from "./src/screens/Recents";
 
 export default function App() {
   return (
@@ -28,7 +31,8 @@ export default function App() {
   );
 }
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
+const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
   const [isLogged, setIsLogged] = useRecoilState(isLoggedIn);
   if (isLogged === undefined) {
@@ -39,7 +43,7 @@ function MainScreen() {
   } else if (isLogged)
     return (
       <NavigationContainer>
-        <Drawer.Navigator
+        {/* <Drawer.Navigator
           drawerContent={(props) => {
             return (
               <DrawerContentScrollView {...props}>
@@ -52,9 +56,27 @@ function MainScreen() {
             );
           }}
         >
-          <Drawer.Screen name="Scanner" component={StartScreen} />
-          <Drawer.Screen name="Buscar" component={SearchScreen} />
-        </Drawer.Navigator>
+        </Drawer.Navigator> */}
+        <Tab.Navigator>
+                    <Tab.Screen name="Recientes" component={Recents} options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons color={color} name="recent-actors" size={26} />
+            )
+
+          }} />
+          <Tab.Screen name="Scanner" component={StartScreen} options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons color={color} name="qrcode-scan" size={26} />
+            )
+
+          }} />
+          <Tab.Screen name="Buscar" component={SearchScreen} options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons color={color} name="search" size={26} />
+            )
+
+          }} />
+        </Tab.Navigator>
       </NavigationContainer>
     );
 

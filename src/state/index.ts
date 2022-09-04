@@ -9,7 +9,7 @@ export const isLoggedIn = atom<boolean | undefined>({
   default: undefined,
 });
 
-export const SERVER_URL = "http://192.168.1.102:8090";
+export const SERVER_URL = "http://127.0.0.1:8090";
 export const SERVER = atom({
   key: "SERVER",
   default: SERVER_URL,
