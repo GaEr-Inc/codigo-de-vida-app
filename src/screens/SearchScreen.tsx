@@ -10,9 +10,7 @@ import {
 } from "react-native-paper";
 import { createClient } from "../util/Pocketbase";
 import { SERVER_URL } from "../state";
-import { useRecoilValue } from "recoil";
 import { nanoid } from "nanoid";
-import axios from "axios";
 import { Record } from "pocketbase"
 import { PatientComp } from "./PatientComp";
 
@@ -64,7 +62,7 @@ function SearchScreen() {
         {results?.map((result) => (
           <PatientComp
             key={nanoid()}
-            name={result.nombre}
+            name={result.nombres}
             document={result.cedula}
             photo={result.foto}
             record={result}

@@ -19,3 +19,15 @@ export const AUTH_TOKEN = atom({
   key: "AUTH_TOKEN",
   default: "",
 });
+
+export const DETAILS_DATA = atom<{nombres: string; cedula: string; direccion: string; sangre: string; apellidos: string; id: string;}>({
+  key: "detailsData",
+  default: {
+    nombres: "",
+    cedula: "",
+    apellidos: "",
+    direccion: "",
+    sangre: "",
+    id: "",
+    },
+});
