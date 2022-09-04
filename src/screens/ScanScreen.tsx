@@ -8,8 +8,8 @@ const Stack = createStackNavigator();
 
 export default function ScanScreen() {
   return (
-    <Stack.Navigator initialRouteName="Scanner">
-      <Stack.Screen name="Scanner" component={Scanner} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="Scan">
+      <Stack.Screen name="Scan" component={Scanner} options={{ headerShown: false }} />
       <Stack.Screen name="Details" component={Details} />
     </Stack.Navigator>
   );
@@ -29,7 +29,7 @@ function Scanner({ navigation }: any) {
     return (
       <View style={styles.container}>
         <Text style={{ textAlign: "center" }}>
-          We need your permission to show the camera
+          Tienes que dar permiso para la camara.
         </Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
