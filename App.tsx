@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import React from "react";
@@ -7,12 +8,6 @@ import { Button, DefaultTheme, Provider } from "react-native-paper";
 import Login from "./src/screens/Login";
 import StartScreen from "./src/screens/StartScreen";
 import { isLoggedIn, SERVER_URL } from "./src/state";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from "@react-navigation/drawer";
 import { Connect } from "./Connect";
 import { logOut } from "./src/util/Pocketbase";
 import SearchScreen from "./src/screens/SearchScreen";
@@ -20,6 +15,7 @@ import { makePDF } from "./src/util/PDFExport";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import Recents from "./src/screens/Recents";
+import ScanScreen from "./src/screens/ScanScreen";
 
 export default function App() {
   return (
@@ -57,14 +53,15 @@ function MainScreen() {
           }}
         >
         </Drawer.Navigator> */}
-        <Tab.Navigator>
+        <Tab.Navigator
+        initialRouteName={"Scanner"}>
                     <Tab.Screen name="Recientes" component={Recents} options={{
             tabBarIcon: ({ color }) => (
               <MaterialIcons color={color} name="recent-actors" size={26} />
             )
 
           }} />
-          <Tab.Screen name="Scanner" component={StartScreen} options={{
+          <Tab.Screen name="Scanner" component={ScanScreen} options={{
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons color={color} name="qrcode-scan" size={26} />
             )
