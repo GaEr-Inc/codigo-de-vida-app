@@ -16,6 +16,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import Recents from "./src/screens/Recents";
 import ScanScreen from "./src/screens/ScanScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
 
 export default function App() {
   return (
@@ -53,26 +54,48 @@ function MainScreen() {
           }}
         >
         </Drawer.Navigator> */}
-        <Tab.Navigator
-        initialRouteName={"Scanner"}>
-                    <Tab.Screen name="Recientes" component={Recents} options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons color={color} name="recent-actors" size={26} />
-            )
+        <Tab.Navigator initialRouteName={"Scanner"}>
+          <Tab.Screen
+            name="Recientes"
+            component={Recents}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialIcons color={color} name="recent-actors" size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Scanner"
+            component={ScanScreen}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  color={color}
+                  name="qrcode-scan"
+                  size={26}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Buscar"
+            component={SearchScreen}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialIcons color={color} name="search" size={26} />
+              ),
+            }}
+          />
 
-          }} />
-          <Tab.Screen name="Scanner" component={ScanScreen} options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons color={color} name="qrcode-scan" size={26} />
-            )
-
-          }} />
-          <Tab.Screen name="Buscar" component={SearchScreen} options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons color={color} name="search" size={26} />
-            )
-
-          }} />
+          <Tab.Screen
+            name="Ajustes"
+            component={SettingsScreen}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialIcons color={color} name="settings" size={26} />
+              ),
+            }}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     );

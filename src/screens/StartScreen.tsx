@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Appbar, Avatar, Headline, List, Modal, Portal } from "react-native-paper";
+import { Avatar, Headline, List, Modal, Portal } from "react-native-paper";
 import Scanner from "./Scanner";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoggedIn, scannedData, SERVER_URL } from "../state";

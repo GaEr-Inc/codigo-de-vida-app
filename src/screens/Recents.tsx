@@ -13,7 +13,6 @@ const Recents = () => {
     return () => {
     }
   }, [])
-  
 
   return (
     // <View style={{ justifyContent: "center", alignContent: "center" }}>
