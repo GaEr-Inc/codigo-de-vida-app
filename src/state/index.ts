@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { UserData } from "../types/userData";
 export const scannedData = atom({
   key: "scannedData",
   default: "",
@@ -20,14 +21,22 @@ export const AUTH_TOKEN = atom({
   default: "",
 });
 
-export const DETAILS_DATA = atom<{nombres: string; cedula: string; direccion: string; sangre: string; apellidos: string; id: string;}>({
+export const DETAILS_DATA = atom<UserData>({
   key: "detailsData",
   default: {
+    id: "",
     nombres: "",
-    cedula: "",
     apellidos: "",
+    edad: "",
+    cedula: "",
+    telefono: "",
     direccion: "",
     sangre: "",
-    id: "",
-    },
+    historia: "",
+    nombres_acudiente: "",
+    apellidos_acudiente: "",
+    telefono_acudiente: "",
+    cedula_acudiente: "",
+    direccion_acudiente: "",
+  },
 });

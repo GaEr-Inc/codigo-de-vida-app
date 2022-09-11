@@ -3,10 +3,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera, CameraType } from "expo-camera";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Avatar, DataTable, Button } from "react-native-paper";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { DETAILS_DATA, SERVER_URL } from "../state";
+import { UserData } from "../types/userData";
 import { createClient } from "../util/Pocketbase";
 import { addOnePatient } from "../util/RecentsUtil";
 const Stack = createStackNavigator();
@@ -30,22 +37,21 @@ function Scanner({ navigation }: any) {
   const [detailsData, setDetailsData] = useRecoilState(DETAILS_DATA);
   const [scanData, setScannedData] = useState("");
 
-  
   const searchPatient = async (document?: string) => {
     const client = await createClient(SERVER_URL);
     const data = await client.Records.getOne(
       "pacientes",
       document === undefined ? scanData : document
-      ).catch(() => undefined);
-      console.log(data);
-      return data;
-    };
-    
-    if (!permission) {
-      // Camera permissions are still loading
+    ).catch(() => undefined);
+    console.log(data);
+    return data;
+  };
+
+  if (!permission) {
+    // Camera permissions are still loading
     return <View />;
   }
-  
+
   if (!permission.granted) {
     // Camera permissions are not granted yet
     return (
@@ -57,13 +63,13 @@ function Scanner({ navigation }: any) {
       </View>
     );
   }
-  
+
   function toggleCameraType() {
     setType((current) =>
-    current === CameraType.back ? CameraType.front : CameraType.back
+      current === CameraType.back ? CameraType.front : CameraType.back
     );
   }
-  
+
   return (
     <View style={styles.container}>
       <Camera
@@ -75,7 +81,8 @@ function Scanner({ navigation }: any) {
         onBarCodeScanned={async (result) => {
           console.log(result);
           setScannedData(result.data);
-          const data: any = await searchPatient(result.data);
+          const data: UserData | undefined = (await searchPatient(result.data)) as UserData | undefined;
+          console.log(data)
           if (data === undefined) {
             alert("Error");
             return;
@@ -85,18 +92,26 @@ function Scanner({ navigation }: any) {
               apellidos: data.apellidos,
               cedula: data.cedula,
               direccion: data.direccion,
-              sangre: "sangre",
+              sangre: data.sangre,
+              edad: data.edad,
+              telefono: data.telefono,
+              nombres_acudiente: data.nombres_acudiente,
+              apellidos_acudiente: data.apellidos_acudiente,
+              telefono_acudiente: data.telefono_acudiente,
+              direccion_acudiente: data.direccion_acudiente,
+              cedula_acudiente: data.cedula_acudiente,
+              historia: data.historia,
               id: data.id,
             });
             navigation.navigate("Details");
           }
         }}
-        >
+      >
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Details")}
-            >
+          >
             <Text style={styles.text}>Ir a detalles</Text>
           </TouchableOpacity>
         </View>
@@ -105,21 +120,26 @@ function Scanner({ navigation }: any) {
   );
 }
 
-
 const Details = () => {
   const data = useRecoilValue(DETAILS_DATA);
+  console.log(data)
   useEffect(() => {
     if (data.id === "") return;
     addOnePatient(data);
-  }, [data])
+  }, [data]);
   return (
-    <View>
+    <ScrollView>
       <Avatar.Icon
         style={{ alignSelf: "center", marginVertical: 18 }}
         size={150}
         icon="account-circle"
-        />
+      />
       <DataTable>
+        <DataTable.Row>
+          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 25 }}>
+            Paciente
+          </DataTable.Cell>
+        </DataTable.Row>
         <DataTable.Row>
           <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
             Nombre
@@ -132,6 +152,13 @@ const Details = () => {
             Apellidos
           </DataTable.Cell>
           <DataTable.Cell numeric>{data.apellidos}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
+            Edad
+          </DataTable.Cell>
+          <DataTable.Cell numeric>{data.edad}</DataTable.Cell>
         </DataTable.Row>
 
         <DataTable.Row>
@@ -157,10 +184,47 @@ const Details = () => {
 
         <DataTable.Row>
           <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Tipo de Sangre
+            Historia Clinica
           </DataTable.Cell>
-          <DataTable.Cell numeric>{data.id}</DataTable.Cell>
+          <DataTable.Cell numeric>{data.historia}</DataTable.Cell>
         </DataTable.Row>
+      </DataTable>
+
+      <DataTable style={{ marginVertical: "1em" }}>
+        <DataTable.Row>
+          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 25 }}>
+            Acudiente
+          </DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
+            Nombre
+          </DataTable.Cell>
+          <DataTable.Cell numeric>{data.nombres_acudiente}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
+            Apellido
+          </DataTable.Cell>
+          <DataTable.Cell numeric>{data.apellidos_acudiente}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
+            Telefono
+          </DataTable.Cell>
+          <DataTable.Cell numeric>{data.telefono_acudiente}</DataTable.Cell>
+        </DataTable.Row>
+
+        <DataTable.Row>
+          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
+            Direccion
+          </DataTable.Cell>
+          <DataTable.Cell numeric>{data.direccion_acudiente}</DataTable.Cell>
+        </DataTable.Row>
+        
       </DataTable>
       <Button
         icon="download"
@@ -169,7 +233,7 @@ const Details = () => {
       >
         Exportar
       </Button>
-    </View>
+    </ScrollView>
   );
 };
 
