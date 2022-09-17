@@ -13,15 +13,16 @@ export function PatientComp(props: {
   photo: string;
   record: Record;
   style: any;
+  onPress: () => void;
 }): JSX.Element {
   const link = props.photo;
-  const record = props.record;
+const record = props.record;
   return (
-    <Card style={props.style}>
+    <Card style={props.style} onPress={props.onPress}>
       <Card.Title
         title={props.name}
         subtitle={props.document}
-        left={(props) => <Avatar.Image source={{ uri: link }} size={50} />} />
+        left={(props) => link === "" ? <Avatar.Icon icon={"account"} size={50} /> : <Avatar.Image source={{ uri: link }} size={50} />} />
       {/* <Card.Content> */}
       {/* <Title>Juan Cardona</Title> */}
       {/* <Paragraph>1006899987</Paragraph> */}

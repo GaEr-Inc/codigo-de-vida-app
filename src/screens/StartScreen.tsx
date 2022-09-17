@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Headline, List, Modal, Portal } from "react-native-paper";
 import Scanner from "./Scanner";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { isLoggedIn, scannedData, SERVER_URL } from "../state";
+import { isLoggedIn, SCANNED_DATA, SERVER_URL } from "../state";
 import { createClient, logOut } from "../util/Pocketbase";
 import { Record } from "pocketbase"
 
 const StartScreen = ({ navigation }: any) => {
   const [visible, setVisible] = useState(false);
-  const scanData = useRecoilValue(scannedData);
+  const scanData = useRecoilValue(SCANNED_DATA);
   const [patientData, setPatientData] = useState<Record | undefined>(undefined);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);

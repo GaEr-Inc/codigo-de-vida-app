@@ -12,10 +12,10 @@ import {
 } from "react-native";
 import { Avatar, DataTable, Button } from "react-native-paper";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { DETAILS_DATA, SERVER_URL } from "../state";
+import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER_URL } from "../state";
 import { UserData } from "../types/userData";
 import { createClient } from "../util/Pocketbase";
-import { addOnePatient } from "../util/RecentsUtil";
+import { addOnePatientToRecents } from "../util/RecentsUtil";
 const Stack = createStackNavigator();
 
 export default function ScanScreen() {
@@ -36,6 +36,13 @@ function Scanner({ navigation }: any) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [detailsData, setDetailsData] = useRecoilState(DETAILS_DATA);
   const [scanData, setScannedData] = useState("");
+  const doDetailsEffect = useRecoilValue(DETAILS_SCREEN_EFFECT)
+  useEffect(() => {
+    navigation.navigate("Details");
+    return () => {
+    }
+  }, [doDetailsEffect])
+  
 
   const searchPatient = async (document?: string) => {
     const client = await createClient(SERVER_URL);
@@ -85,6 +92,7 @@ function Scanner({ navigation }: any) {
           console.log(data)
           if (data === undefined) {
             alert("Error");
+            console.log("sdsdsd");
             return;
           } else {
             setDetailsData({
@@ -125,7 +133,7 @@ const Details = () => {
   console.log(data)
   useEffect(() => {
     if (data.id === "") return;
-    addOnePatient(data);
+    addOnePatientToRecents(data);
   }, [data]);
   return (
     <ScrollView>
@@ -190,7 +198,7 @@ const Details = () => {
         </DataTable.Row>
       </DataTable>
 
-      <DataTable style={{ marginVertical: "1em" }}>
+      <DataTable style={{ marginVertical: 5 }}>
         <DataTable.Row>
           <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 25 }}>
             Acudiente

@@ -1,28 +1,25 @@
 import "react-native-get-random-values";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
-import {
-  Avatar,
-  List,
-  Paragraph,
-  TextInput,
-  Title,
-} from "react-native-paper";
+import { Avatar, List, Paragraph, TextInput, Title } from "react-native-paper";
 import { createClient } from "../util/Pocketbase";
-import { SERVER_URL } from "../state";
+import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SCANNED_DATA, SERVER_URL } from "../state";
 import { nanoid } from "nanoid";
-import { Record } from "pocketbase"
+import { Record, User } from "pocketbase";
 import { PatientComp } from "./PatientComp";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { UserData } from "../types/userData";
 
 function SearchScreen() {
   const [query, setQuery] = React.useState("");
-  const [results, setResults] = React.useState<
-    Record[] | undefined
-  >(undefined);
+  const [results, setResults] = React.useState<Record[] | undefined>(undefined);
+  const setDetailsData = useSetRecoilState(DETAILS_DATA);
+  const setDetailsScreenEffect = useSetRecoilState(DETAILS_SCREEN_EFFECT)
+  const [scannedData, setScannedData] = useRecoilState(SCANNED_DATA);
   const LeftContent = (props: any) => (
     <Avatar.Icon {...props} icon="account-outline" />
-    );
-    const searchPatient = async () => {
+  );
+  const searchPatient = async () => {
     const client = await createClient(SERVER_URL);
     const data = await client.Records.getList(
       "pacientes",
@@ -36,9 +33,30 @@ function SearchScreen() {
       console.log(client.Records.getFileUrl(item, item.foto));
     });
     console.log(data);
-    const patients = data.items
+    const patients = data.items;
     setResults(patients);
     return data;
+  };
+
+  const selectPatient = async (data: UserData) => {
+    console.log("sdds");
+    setDetailsData({
+      nombres: data.nombres,
+      apellidos: data.apellidos,
+      cedula: data.cedula,
+      direccion: data.direccion,
+      sangre: data.sangre,
+      edad: data.edad,
+      telefono: data.telefono,
+      nombres_acudiente: data.nombres_acudiente,
+      apellidos_acudiente: data.apellidos_acudiente,
+      telefono_acudiente: data.telefono_acudiente,
+      direccion_acudiente: data.direccion_acudiente,
+      cedula_acudiente: data.cedula_acudiente,
+      historia: data.historia,
+      id: data.id,
+    });
+    setDetailsScreenEffect((val) => !val)
   };
   return (
     <View style={styles.container}>
@@ -67,6 +85,7 @@ function SearchScreen() {
             photo={result.foto}
             record={result}
             style={{ marginVertical: 5 }}
+            onPress={() => selectPatient((result as unknown) as UserData)}
           />
         ))}
       </ScrollView>
@@ -87,5 +106,3 @@ const styles = StyleSheet.create({
 });
 
 export default SearchScreen;
-
-

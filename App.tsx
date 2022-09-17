@@ -17,14 +17,18 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import Recents from "./src/screens/Recents";
 import ScanScreen from "./src/screens/ScanScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 
 export default function App() {
   return (
+    <>
     <Provider theme={DefaultTheme}>
       <RecoilRoot>
         <MainScreen />
       </RecoilRoot>
     </Provider>
+    <ExpoStatusBar style="auto" translucent={false} />
+    </>
   );
 }
 

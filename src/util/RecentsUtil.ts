@@ -1,14 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserData } from "../types/userData";
 
-export async function getRecentPatients(): Promise<
-  {
-    nombres: string;
-    apellidos: string;
-    cedula: string;
-    direccion: string;
-    sangre: string;
-    id: string;
-  }[]
+export async function getRecentPatients(): Promise<UserData[]
 > {
   const recents = await AsyncStorage.getItem("@recent-patients");
   if (recents === null) {
@@ -19,26 +12,12 @@ export async function getRecentPatients(): Promise<
 }
 
 export async function setRecentPatients(
-  recents: {
-    nombres: string;
-    apellidos: string;
-    cedula: string;
-    direccion: string;
-    sangre: string;
-    id: string;
-  }[]
+  recents: UserData []
 ) {
   await AsyncStorage.setItem("@recent-patients", JSON.stringify(recents));
 }
 
-export async function addOnePatient(patient: {
-  nombres: string;
-  apellidos: string;
-  cedula: string;
-  direccion: string;
-  sangre: string;
-  id: string;
-}) {
+export async function addOnePatientToRecents(patient: UserData) {
   let isDuplicate = false;
   const currentPatients = await getRecentPatients();
   currentPatients.map((currentPatient) => {

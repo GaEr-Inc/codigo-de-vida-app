@@ -4,14 +4,14 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Button, IconButton } from "react-native-paper";
 import { useRecoilState } from "recoil";
-import { scannedData } from "../state";
+import { SCANNED_DATA } from "../state";
 
 function Scanner({ navigation }: any) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(true);
   const [testText, setTestText] = useState("Qr read");
-  const [scannedDat, setScannedData] = useRecoilState(scannedData);
+  const [scannedDat, setScannedData] = useRecoilState(SCANNED_DATA);
 
   useEffect(() => {
     (async () => {
