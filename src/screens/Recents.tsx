@@ -46,6 +46,7 @@ const Recents = () => {
       {recentPatients.map((patient) => (
         <PatientComp
           key={nanoid()}
+          id={patient.id}
           name={patient.nombres}
           document={patient.cedula}
           photo={""}

@@ -2,6 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera, CameraType } from "expo-camera";
+import { openBrowserAsync } from "expo-web-browser";
 import React, { useEffect, useState } from "react";
 import {
   ScrollView,
@@ -12,7 +13,7 @@ import {
 } from "react-native";
 import { Avatar, DataTable, Button } from "react-native-paper";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER_URL } from "../state";
+import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, MAIN_SERVER, SERVER_URL } from "../state";
 import { UserData } from "../types/userData";
 import { createClient } from "../util/Pocketbase";
 import { addOnePatientToRecents } from "../util/RecentsUtil";
@@ -238,6 +239,7 @@ const Details = () => {
         icon="download"
         style={{ marginVertical: 5, marginHorizontal: 10 }}
         mode="contained"
+        onPress={() => data.id != "" ? openBrowserAsync(`http://${MAIN_SERVER}:3000/generatepdf/${data.id}`) : () => {}}
       >
         Exportar
       </Button>

@@ -6,8 +6,11 @@ import {
 } from "react-native-paper";
 import { makePDF } from "../util/PDFExport";
 import { Record } from "pocketbase";
+import { MAIN_SERVER } from "../state";
+import { openBrowserAsync } from "expo-web-browser";
 
 export function PatientComp(props: {
+  id: string,
   name: string;
   document: string;
   photo: string;
@@ -29,7 +32,7 @@ const record = props.record;
       {/* </Card.Content> */}
       <Card.Actions>
         <Button icon={"download"} onPress={() => {
-          makePDF(record.nombre, record.apellido, record.edad.toString(), record.direccion, record.id, link, record).catch(console.error);
+          openBrowserAsync(`http://${MAIN_SERVER}:3000/generatepdf/${props.id}`)
         }}>Exportar</Button>
       </Card.Actions>
     </Card>

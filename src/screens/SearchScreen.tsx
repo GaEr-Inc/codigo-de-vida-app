@@ -80,6 +80,7 @@ function SearchScreen() {
         {results?.map((result) => (
           <PatientComp
             key={nanoid()}
+            id={result.id}
             name={result.nombres}
             document={result.cedula}
             photo={result.foto}
