@@ -42,7 +42,7 @@ const Recents = () => {
   };
   return (
     // <View style={{ justifyContent: "center", alignContent: "center" }}>
-    <ScrollView style={{ marginTop: 5 }}>
+    <ScrollView style={{ marginTop: 20,  marginBottom: "15%" }}>
       {recentPatients.map((patient) => (
         <PatientComp
           key={nanoid()}

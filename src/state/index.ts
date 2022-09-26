@@ -22,9 +22,9 @@ export const AUTH_TOKEN = atom({
   default: "",
 });
 
-export const DETAILS_SCREEN_EFFECT = atom({
+export const DETAILS_SCREEN_EFFECT = atom<boolean | undefined>({
   key: "DETECT_SCREEN_EFFECT",
-  default: false,
+  default: undefined,
 });
 
 export const DETAILS_DATA = atom<UserData>({

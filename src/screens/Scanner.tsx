@@ -6,6 +6,8 @@ import { Button, IconButton } from "react-native-paper";
 import { useRecoilState } from "recoil";
 import { SCANNED_DATA } from "../state";
 
+// DEPRECATED
+
 function Scanner({ navigation }: any) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);

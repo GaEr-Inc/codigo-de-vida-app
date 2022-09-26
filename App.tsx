@@ -22,12 +22,12 @@ import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 export default function App() {
   return (
     <>
-    <Provider theme={DefaultTheme}>
-      <RecoilRoot>
-        <MainScreen />
-      </RecoilRoot>
-    </Provider>
-    <ExpoStatusBar style="auto" translucent={false} />
+      <Provider theme={DefaultTheme}>
+        <RecoilRoot>
+          <MainScreen />
+        </RecoilRoot>
+      </Provider>
+      <ExpoStatusBar style="auto" translucent={false} />
     </>
   );
 }
@@ -44,21 +44,7 @@ function MainScreen() {
   } else if (isLogged)
     return (
       <NavigationContainer>
-        {/* <Drawer.Navigator
-          drawerContent={(props) => {
-            return (
-              <DrawerContentScrollView {...props}>
-                <DrawerItemList {...props} />
-                <DrawerItem
-                  label="Cerrar sesión"
-                  onPress={() => logOut(SERVER_URL, setIsLogged)}
-                />
-              </DrawerContentScrollView>
-            );
-          }}
-        >
-        </Drawer.Navigator> */}
-        <Tab.Navigator initialRouteName={"Scanner"}>
+        <Tab.Navigator initialRouteName={"Scanner"} barStyle={{backgroundColor: "black"}}>
           <Tab.Screen
             name="Recientes"
             component={Recents}

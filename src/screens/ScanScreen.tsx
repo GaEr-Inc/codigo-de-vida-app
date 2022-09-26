@@ -2,21 +2,19 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera, CameraType } from "expo-camera";
-import { openBrowserAsync } from "expo-web-browser";
 import React, { useEffect, useState } from "react";
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Avatar, DataTable, Button } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, MAIN_SERVER, SERVER_URL } from "../state";
+import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER_URL } from "../state";
 import { UserData } from "../types/userData";
 import { createClient } from "../util/Pocketbase";
-import { addOnePatientToRecents } from "../util/RecentsUtil";
+import { Details } from "./Details";
 const Stack = createStackNavigator();
 
 export default function ScanScreen() {
@@ -27,7 +25,7 @@ export default function ScanScreen() {
         component={Scanner}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Details" component={Details} />
+      <Stack.Screen name="Detalles" component={Details} />
     </Stack.Navigator>
   );
 }
@@ -39,7 +37,10 @@ function Scanner({ navigation }: any) {
   const [scanData, setScannedData] = useState("");
   const doDetailsEffect = useRecoilValue(DETAILS_SCREEN_EFFECT)
   useEffect(() => {
-    navigation.navigate("Details");
+    //This prevents the details screen from being shown when the app is first opened
+    if (doDetailsEffect === undefined) return
+    navigation.navigate("Detalles");
+    console.log("Details effect triggered");
     return () => {
     }
   }, [doDetailsEffect])
@@ -112,14 +113,14 @@ function Scanner({ navigation }: any) {
               historia: data.historia,
               id: data.id,
             });
-            navigation.navigate("Details");
+            navigation.navigate("Detalles");
           }
         }}
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Details")}
+            onPress={() => navigation.navigate("Detalles")}
           >
             <Text style={styles.text}>Ir a detalles</Text>
           </TouchableOpacity>
@@ -128,124 +129,6 @@ function Scanner({ navigation }: any) {
     </View>
   );
 }
-
-const Details = () => {
-  const data = useRecoilValue(DETAILS_DATA);
-  console.log(data)
-  useEffect(() => {
-    if (data.id === "") return;
-    addOnePatientToRecents(data);
-  }, [data]);
-  return (
-    <ScrollView>
-      <Avatar.Icon
-        style={{ alignSelf: "center", marginVertical: 18 }}
-        size={150}
-        icon="account-circle"
-      />
-      <DataTable>
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 25 }}>
-            Paciente
-          </DataTable.Cell>
-        </DataTable.Row>
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Nombre
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.nombres}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Apellidos
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.apellidos}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Edad
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.edad}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Cedula
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.cedula}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Direccion
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.direccion}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Tipo de Sangre
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.sangre}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Historia Clinica
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.historia}</DataTable.Cell>
-        </DataTable.Row>
-      </DataTable>
-
-      <DataTable style={{ marginVertical: 5 }}>
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 25 }}>
-            Acudiente
-          </DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Nombre
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.nombres_acudiente}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Apellido
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.apellidos_acudiente}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Telefono
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.telefono_acudiente}</DataTable.Cell>
-        </DataTable.Row>
-
-        <DataTable.Row>
-          <DataTable.Cell textStyle={{ fontWeight: "bold", fontSize: 20 }}>
-            Direccion
-          </DataTable.Cell>
-          <DataTable.Cell numeric>{data.direccion_acudiente}</DataTable.Cell>
-        </DataTable.Row>
-        
-      </DataTable>
-      <Button
-        icon="download"
-        style={{ marginVertical: 5, marginHorizontal: 10 }}
-        mode="contained"
-        onPress={() => data.id != "" ? openBrowserAsync(`http://${MAIN_SERVER}:3000/generatepdf/${data.id}`) : () => {}}
-      >
-        Exportar
-      </Button>
-    </ScrollView>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {

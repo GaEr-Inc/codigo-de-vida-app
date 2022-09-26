@@ -61,6 +61,7 @@ function SearchScreen() {
   return (
     <View style={styles.container}>
       <TextInput
+      activeOutlineColor="black"
         style={styles.textInput}
         placeholder={"Numero de cedula"}
         mode={"outlined"}
@@ -76,7 +77,7 @@ function SearchScreen() {
         onChangeText={(text) => setQuery(text)}
       />
 
-      <ScrollView style={{ width: "90%" }}>
+      <ScrollView style={{ width: "90%", marginBottom: "15%" }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         {results?.map((result) => (
           <PatientComp
             key={nanoid()}
