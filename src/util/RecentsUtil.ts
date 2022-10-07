@@ -25,12 +25,21 @@ export async function addOnePatientToRecents(patient: UserData) {
       isDuplicate = true;
     }
   });
-  if (isDuplicate) {
-    return;
-  }
+  if (isDuplicate) return;
   currentPatients.push(patient);
   await AsyncStorage.setItem(
     "@recent-patients",
     JSON.stringify(currentPatients)
+  );
+}
+
+export async function removeOnePatientFromRecents(id: string) {
+  const currentPatients = await getRecentPatients();
+  const filteredPatients = currentPatients.filter(
+    (currentPatient) => currentPatient.id !== id
+  );
+  await AsyncStorage.setItem(
+    "@recent-patients",
+    JSON.stringify(filteredPatients)
   );
 }

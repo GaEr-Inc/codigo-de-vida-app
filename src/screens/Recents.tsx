@@ -6,21 +6,23 @@ import { useState } from "react";
 import { getRecentPatients } from "../util/RecentsUtil";
 import { UserData } from "../types/userData";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { DETAILS_DATA, DETAILS_SCREEN_EFFECT } from "../state";
+import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER, SERVER_URL} from "../state";
 import { useIsFocused } from "@react-navigation/native";
+import { createClient } from "../util/Pocketbase";
 
 const Recents = () => {
-  const detailsData = useRecoilState(DETAILS_DATA);
+  const url = useRecoilState(SERVER);
   const [recentPatients, setRecentPatients] = useState<UserData[]>([]);
   const setDetailsData = useSetRecoilState(DETAILS_DATA);
   const setDetailsScreenEffect = useSetRecoilState(DETAILS_SCREEN_EFFECT);
   const isFocused = useIsFocused()
+  const [forceRefresh, setForceRefresh] = useState(false);
   useEffect(() => {
     console.log("refresh");
     getRecentPatients().then((recentPatients) => {
       setRecentPatients(recentPatients);
     });
-  }, [isFocused]);
+  }, [isFocused, forceRefresh]);
   const selectPatient = async (data: UserData) => {
     setDetailsData({
       nombres: data.nombres,
@@ -38,7 +40,11 @@ const Recents = () => {
       historia: data.historia,
       id: data.id,
     });
+    const client = createClient(SERVER_URL).then((client) => {
+     
+    }).catch(console.log);
     setDetailsScreenEffect((val) => !val);
+
   };
   return (
     // <View style={{ justifyContent: "center", alignContent: "center" }}>
@@ -53,6 +59,8 @@ const Recents = () => {
           record={null as any}
           style={{ marginVertical: 5, alignSelf: "center", width: "90%" }}
           onPress={() => selectPatient(patient)}
+          isRecents
+          refreshSetter={setForceRefresh}
         />
       ))}
       {recentPatients.length != 0 ? null : (

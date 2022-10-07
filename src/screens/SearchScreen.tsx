@@ -21,6 +21,7 @@ function SearchScreen() {
   );
   const searchPatient = async () => {
     const client = await createClient(SERVER_URL);
+
     const data = await client.Records.getList(
       "pacientes",
       undefined,
@@ -39,7 +40,6 @@ function SearchScreen() {
   };
 
   const selectPatient = async (data: UserData) => {
-    console.log("sdds");
     setDetailsData({
       nombres: data.nombres,
       apellidos: data.apellidos,
@@ -61,7 +61,7 @@ function SearchScreen() {
   return (
     <View style={styles.container}>
       <TextInput
-      activeOutlineColor="black"
+        activeOutlineColor="black"
         style={styles.textInput}
         placeholder={"Numero de cedula"}
         mode={"outlined"}
