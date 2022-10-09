@@ -9,6 +9,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER, SERVER_URL} from "../state";
 import { useIsFocused } from "@react-navigation/native";
 import { createClient } from "../util/Pocketbase";
+import { logAccess } from "../util/LogActivity";
 
 const Recents = () => {
   const url = useRecoilState(SERVER);
@@ -53,12 +54,12 @@ const Recents = () => {
         <PatientComp
           key={nanoid()}
           id={patient.id}
-          name={patient.nombres}
+          name={`${patient.nombres} ${patient.apellidos}`}
           document={patient.cedula}
           photo={""}
           record={null as any}
           style={{ marginVertical: 5, alignSelf: "center", width: "90%" }}
-          onPress={() => selectPatient(patient)}
+          onPress={() => {selectPatient(patient); logAccess(patient.id, "Recientes")}}
           isRecents
           refreshSetter={setForceRefresh}
         />

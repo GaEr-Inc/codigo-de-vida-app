@@ -9,6 +9,7 @@ import { Record, User } from "pocketbase";
 import { PatientComp } from "./PatientComp";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { UserData } from "../types/userData";
+import { logAccess } from "../util/LogActivity";
 
 function SearchScreen() {
   const [query, setQuery] = React.useState("");
@@ -31,7 +32,7 @@ function SearchScreen() {
       }
     );
     data.items.map((item) => {
-      console.log(client.Records.getFileUrl(item, item.foto));
+      console.log(client.records.getFileUrl(item, item.foto));
     });
     console.log(data);
     const patients = data.items;
@@ -82,12 +83,12 @@ function SearchScreen() {
           <PatientComp
             key={nanoid()}
             id={result.id}
-            name={result.nombres}
+            name={`${result.nombres} ${result.apellidos}`}
             document={result.cedula}
             photo={result.foto}
             record={result}
             style={{ marginVertical: 5 }}
-            onPress={() => selectPatient((result as unknown) as UserData)}
+            onPress={() => {selectPatient((result as unknown) as UserData); logAccess(result.id, "Busqueda")}}
           />
         ))}
       </ScrollView>

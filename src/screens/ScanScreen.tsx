@@ -13,6 +13,7 @@ import { Button } from "react-native-paper";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER_URL } from "../state";
 import { UserData } from "../types/userData";
+import { logAccess } from "../util/LogActivity";
 import { createClient } from "../util/Pocketbase";
 import { Details } from "./Details";
 const Stack = createStackNavigator();
@@ -44,11 +45,12 @@ function Scanner({ navigation }: any) {
     return () => {
     }
   }, [doDetailsEffect])
-  
+  let currentDetailsId = "";
+  let currentScannedData = "";
 
   const searchPatient = async (document?: string) => {
     const client = await createClient(SERVER_URL);
-    const data = await client.Records.getOne(
+    const data = await client.records.getOne(
       "pacientes",
       document === undefined ? scanData : document
     ).catch(() => undefined);
@@ -88,8 +90,10 @@ function Scanner({ navigation }: any) {
           barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
         }}
         onBarCodeScanned={async (result) => {
+          if (currentScannedData === result.data) return;
           console.log(result);
           setScannedData(result.data);
+          currentScannedData = result.data;
           const data: UserData | undefined = (await searchPatient(result.data)) as UserData | undefined;
           console.log(data)
           if (data === undefined) {
@@ -113,6 +117,12 @@ function Scanner({ navigation }: any) {
               historia: data.historia,
               id: data.id,
             });
+            // Prevent duplicate logs
+            if (data.id !== currentDetailsId){
+              console.log("Logging access", data.id, detailsData.id, data.id !== detailsData.id)
+              logAccess(data.id, "Scanner");
+            }
+            currentDetailsId = data.id;
             navigation.navigate("Detalles");
           }
         }}
