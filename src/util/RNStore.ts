@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Admin, BaseAuthStore, User } from "pocketbase";
+import { BaseAuthStore, User, Admin } from "./pck/pocketbase.es.js";
+
 
 /**
  * The default token store for browsers with auto fallback

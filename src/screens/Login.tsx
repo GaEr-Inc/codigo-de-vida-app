@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Avatar, Button, TextInput } from "react-native-paper";
-import { createClient } from "../util/Pocketbase";
+import { createClient } from "../util/PocketbaseUtil";
 import { useSetRecoilState } from "recoil";
 import { isLoggedIn, SERVER_URL } from "../state";
 import AsyncStorage from "@react-native-async-storage/async-storage";

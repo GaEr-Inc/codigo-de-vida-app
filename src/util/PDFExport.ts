@@ -3,11 +3,9 @@ import { nanoid } from "nanoid";
 import { PDFDocument, PDFImage } from "pdf-lib";
 import { document } from "./PDFDocument";
 import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
 import { SERVER_URL } from "../state";
-import { createClient } from "./Pocketbase";
+import { createClient } from "./PocketbaseUtil";
 import { Record } from "pocketbase";
-import { downloadAsync } from "expo-file-system";
 const pdfbytes = document;
 
 export async function makePDF(
@@ -34,7 +32,7 @@ export async function makePDF(
   let pdfImage: PDFImage | undefined = undefined;
   try {
     pdfImage = await pdfdoc.embedPng(
-      client.Records.getFileUrl(record, record.foto)
+      client.records.getFileUrl(record, record.foto)
     );
   } catch (error) {
     console.error(error);

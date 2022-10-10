@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native-paper";
 import { isLoggedIn, SERVER_URL } from "./src/state";
 import { ClientResponseError } from "pocketbase";
 import { getUserId } from "./src/util/User";
-import { createClient } from "./src/util/Pocketbase";
+import { createClient } from "./src/util/PocketbaseUtil";
 
 export function Connect() {
   const setIsLogged = useSetRecoilState(isLoggedIn);

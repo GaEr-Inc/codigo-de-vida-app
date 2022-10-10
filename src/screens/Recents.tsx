@@ -8,7 +8,7 @@ import { UserData } from "../types/userData";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER, SERVER_URL} from "../state";
 import { useIsFocused } from "@react-navigation/native";
-import { createClient } from "../util/Pocketbase";
+import { createClient } from "../util/PocketbaseUtil";
 import { logAccess } from "../util/LogActivity";
 
 const Recents = () => {

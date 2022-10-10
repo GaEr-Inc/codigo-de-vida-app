@@ -1,5 +1,5 @@
 import { SERVER_URL } from "../state";
-import { createClient } from "./Pocketbase";
+import { createClient } from "./PocketbaseUtil";
 
 export async function logAccess(id: string, cedula:string, from: string) {
   const client = await createClient(SERVER_URL);

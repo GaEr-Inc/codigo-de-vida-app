@@ -4,7 +4,7 @@ import { Avatar, Headline, List, Modal, Portal } from "react-native-paper";
 import Scanner from "./Scanner";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { isLoggedIn, SCANNED_DATA, SERVER_URL } from "../state";
-import { createClient, logOut } from "../util/Pocketbase";
+import { createClient, logOut } from "../util/PocketbaseUtil";
 import { Record } from "pocketbase"
 
 const StartScreen = ({ navigation }: any) => {

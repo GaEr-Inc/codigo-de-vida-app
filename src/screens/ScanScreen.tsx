@@ -14,7 +14,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SERVER_URL } from "../state";
 import { UserData } from "../types/userData";
 import { logAccess } from "../util/LogActivity";
-import { createClient } from "../util/Pocketbase";
+import { createClient } from "../util/PocketbaseUtil";
 import { Details } from "./Details";
 const Stack = createStackNavigator();
 

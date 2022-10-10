@@ -9,7 +9,7 @@ import Login from "./src/screens/Login";
 import StartScreen from "./src/screens/StartScreen";
 import { isLoggedIn, SERVER_URL } from "./src/state";
 import { Connect } from "./Connect";
-import { logOut } from "./src/util/Pocketbase";
+import { logOut } from "./src/util/PocketbaseUtil";
 import SearchScreen from "./src/screens/SearchScreen";
 import { makePDF } from "./src/util/PDFExport";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";

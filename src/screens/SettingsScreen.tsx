@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Button } from "react-native-paper";
-import { logOut } from "../util/Pocketbase";
+import { logOut } from "../util/PocketbaseUtil";
 import { isLoggedIn, SERVER_URL } from "../state";
 import { useSetRecoilState } from "recoil";
 

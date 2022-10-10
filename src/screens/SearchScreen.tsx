@@ -2,7 +2,7 @@ import "react-native-get-random-values";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { Avatar, List, Paragraph, TextInput, Title } from "react-native-paper";
-import { createClient } from "../util/Pocketbase";
+import { createClient } from "../util/PocketbaseUtil";
 import { DETAILS_DATA, DETAILS_SCREEN_EFFECT, SCANNED_DATA, SERVER_URL } from "../state";
 import { nanoid } from "nanoid";
 import { Record, User } from "pocketbase";
