@@ -59,7 +59,7 @@ const Recents = () => {
           photo={""}
           record={null as any}
           style={{ marginVertical: 5, alignSelf: "center", width: "90%" }}
-          onPress={() => {selectPatient(patient); logAccess(patient.id, "Recientes")}}
+          onPress={() => {selectPatient(patient); logAccess(patient.id, patient.cedula, "Recientes")}}
           isRecents
           refreshSetter={setForceRefresh}
         />

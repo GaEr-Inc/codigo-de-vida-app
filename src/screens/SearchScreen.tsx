@@ -23,7 +23,7 @@ function SearchScreen() {
   const searchPatient = async () => {
     const client = await createClient(SERVER_URL);
 
-    const data = await client.Records.getList(
+    const data = await client.records.getList(
       "pacientes",
       undefined,
       undefined,
@@ -88,7 +88,7 @@ function SearchScreen() {
             photo={result.foto}
             record={result}
             style={{ marginVertical: 5 }}
-            onPress={() => {selectPatient((result as unknown) as UserData); logAccess(result.id, "Busqueda")}}
+            onPress={() => {selectPatient((result as unknown) as UserData); logAccess(result.id, result.cedula, "Busqueda")}}
           />
         ))}
       </ScrollView>

@@ -120,7 +120,7 @@ function Scanner({ navigation }: any) {
             // Prevent duplicate logs
             if (data.id !== currentDetailsId){
               console.log("Logging access", data.id, detailsData.id, data.id !== detailsData.id)
-              logAccess(data.id, "Scanner");
+              logAccess(data.id, data.cedula, "Scanner");
             }
             currentDetailsId = data.id;
             navigation.navigate("Detalles");
