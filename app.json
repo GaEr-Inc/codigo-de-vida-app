@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "codigo-de-vida",
-    "slug": "codigo-de-vida",
-    "version": "1.0.0",
+    "name": "Codigo de Vida",
+    "slug": "CodigoDeVida",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
