@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Codigo de Vida",
-    "slug": "CodigoDeVida",
+    "slug": "codigo-de-vida",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.verzach3.codigodevida"
+      "package": "com.dsap06.codigodevida"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,5 +35,6 @@
         "projectId": "7718a30e-4d5e-4cba-8355-6a9ab5b4c4cf"
       }
     }
-  }
+  },
+  "owner": "Verzach3"
 }
